@@ -6,22 +6,6 @@ const CountryComparison = ({ countries }) => {
   const [selectedCountries, setSelectedCountries] = useState(["", ""]);
   const [gdpData, setGdpData] = useState({});
 
-  if (!countries || countries.length === 0) {
-    return <p>No countries available for comparison.</p>;
-  }
-
-  const handleSelect = (index, value) => {
-    setSelectedCountries((prev) => {
-      const newSelection = [...prev];
-      newSelection[index] = value;
-      return newSelection;
-    });
-  };
-
-  const countryA = countries.find((c) => c.name.common === selectedCountries[0]);
-  const countryB = countries.find((c) => c.name.common === selectedCountries[1]);
-
-  // Fetch GDP Data from World Bank API
   useEffect(() => {
     const fetchGdpData = async () => {
       if (!selectedCountries[0] || !selectedCountries[1]) return;
@@ -50,6 +34,21 @@ const CountryComparison = ({ countries }) => {
 
     fetchGdpData();
   }, [selectedCountries, countries]);
+
+  if (!countries || countries.length === 0) {
+    return <p>No countries available for comparison.</p>;
+  }
+
+  const handleSelect = (index, value) => {
+    setSelectedCountries((prev) => {
+      const newSelection = [...prev];
+      newSelection[index] = value;
+      return newSelection;
+    });
+  };
+
+  const countryA = countries.find((c) => c.name.common === selectedCountries[0]);
+  const countryB = countries.find((c) => c.name.common === selectedCountries[1]);
 
   return (
     <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
